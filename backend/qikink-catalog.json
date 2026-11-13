@@ -1,0 +1,62 @@
+{
+  "environment": "sandbox",
+  "source": "Qikink SKU Descriptions spreadsheet uploaded by user",
+  "qikinkCatalogueProduct": "TriLayer Terry Oversized Tee | UT27",
+  "skuPrefix": "UOsTMRnHs",
+  "sizes": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "colourCodes": {
+    "White": "Wh",
+    "Black": "Bk",
+    "Navy Blue": "Nb",
+    "Maroon": "Mn",
+    "Bottle Green": "Gn",
+    "Red": "Rd",
+    "Light Baby Pink": "LBp",
+    "Lavender": "Lv",
+    "Baby Blue": "BB",
+    "Flamingo": "Fl",
+    "Jade": "Jd",
+    "Off White": "OFw"
+  },
+  "products": {
+    "64117954": {
+      "designCode": "LogoW_69f095af74f35",
+      "colours": [
+        "White",
+        "Bottle Green",
+        "Red",
+        "Light Baby Pink",
+        "Lavender",
+        "Baby Blue",
+        "Flamingo",
+        "Jade",
+        "Off White"
+      ]
+    },
+    "64117976": {
+      "designCode": "IMPLBlack_69f38096c84dd-LogoB",
+      "colours": [
+        "White",
+        "Black",
+        "Navy Blue",
+        "Maroon"
+      ]
+    }
+  },
+  "skuTemplate": "UOsTMRnHs-{colourCode}-{size}",
+  "basePriceINR": 294,
+  "taxRatePercent": 5,
+  "notes": [
+    "The spreadsheet lists this SKU family as TriLayer Terry Oversized Tee | UT27.",
+    "Both designs map to the same blank garment catalogue SKU family; design_code distinguishes the artwork.",
+    "Do not submit an order until print placement, print dimensions, and design file availability are confirmed.",
+    "Sandbox uses search_from_my_products=false for custom-design orders."
+  ]
+}
