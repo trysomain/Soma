@@ -116,6 +116,7 @@ app.post("/api/qikink/test-order", async (_req, res) => {
       line_items: [{
         // Qikink support asked us to test catalogue lookup mode while they investigate.
         search_from_my_products: 0,
+        print_type_id: 1,
         sku: "UOSsMRnHs-Wh-S",
         quantity: "1",
         price: "284.55"
