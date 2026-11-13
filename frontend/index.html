@@ -582,6 +582,7 @@
     function addToBag(productId, size) {
       const product = state.products.find(p => p.id === productId);
       if (!product) return;
+      if (product.comingSoon) { showToast('Winter / 001 preview — checkout will open after product setup.'); return; }
       const key = `${productId}_${size}`;
       const existing = state.bag.find(i => i.key === key);
       if (existing) {
