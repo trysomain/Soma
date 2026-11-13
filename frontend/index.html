@@ -835,11 +835,9 @@
       }
 
       document.getElementById('buyNowRazorpayBtn').addEventListener('click', () => {
-        const solstice = state.products[0];
-        launchRazorpayCheckout(
-          [{ id: solstice.id, qty: 1, size: state.selectedSize }],
-          `${solstice.name} (Size ${state.selectedSize})`
-        );
+        addToBag('soma-sol-01', state.selectedSize);
+        document.getElementById('bagModal').classList.remove('hidden');
+        showToast('Enter your shipping details, then proceed to checkout.');
       });
 
       const triggerBagRazorpay = () => {
