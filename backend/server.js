@@ -52,7 +52,7 @@ app.post("/api/create-order", async (req, res) => {
         shipping.city.length > 80 || shipping.state.length > 80 ||
         !/^[0-9]{6}$/.test(shipping.pincode) ||
         !/^[0-9+() -]{10,20}$/.test(shipping.phone) ||
-        !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(shipping.email)) {
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(shipping.email)) {
       return res.status(400).json({ error: "Please check your phone, email, PIN code, and address details." });
     }
 
