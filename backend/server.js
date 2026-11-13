@@ -36,8 +36,24 @@ app.get("/api/health", (_req, res) => res.json({ ok: true }));
 app.post("/api/create-order", async (req, res) => {
   try {
     const items = req.body.items;
+    const shipping = req.body.shipping || {};
     if (!Array.isArray(items) || items.length === 0 || items.length > 20) {
       return res.status(400).json({ error: "Invalid cart." });
+    }
+
+    const requiredShipping = ["name", "phone", "email", "address1", "city", "state", "pincode"];
+    for (const field of requiredShipping) {
+      if (typeof shipping[field] !== "string" || !shipping[field].trim()) {
+        return res.status(400).json({ error: "Please provide all required shipping details." });
+      }
+    }
+    if (shipping.name.length > 100 || shipping.email.length > 120 ||
+        shipping.address1.length > 180 || (shipping.address2 || "").length > 180 ||
+        shipping.city.length > 80 || shipping.state.length > 80 ||
+        !/^[0-9]{6}$/.test(shipping.pincode) ||
+        !/^[0-9+() -]{10,20}$/.test(shipping.phone) ||
+        !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(shipping.email)) {
+      return res.status(400).json({ error: "Please check your phone, email, PIN code, and address details." });
     }
 
     let totalRupees = 0;
@@ -57,7 +73,18 @@ app.post("/api/create-order", async (req, res) => {
     const order = await razorpay.orders.create({
       amount,
       currency: "INR",
-      receipt: `soma_${Date.now()}`
+      receipt: `soma_${Date.now()}`,
+      notes: {
+        customer_name: shipping.name.trim(),
+        customer_phone: shipping.phone.trim(),
+        customer_email: shipping.email.trim(),
+        shipping_address1: shipping.address1.trim(),
+        shipping_address2: (shipping.address2 || "").trim(),
+        shipping_city: shipping.city.trim(),
+        shipping_state: shipping.state.trim(),
+        shipping_pincode: shipping.pincode.trim(),
+        shipping_country: "India"
+      }
     });
 
     return res.json({
