@@ -515,10 +515,10 @@
       pendingCheckoutTotal: 0,
       bag: [],
       products: [
-        { id: 'soma-sol-01', name: 'SOLSTICE — ECLIPSE TEE', subtitle: 'Cathedral eclipse / antique-silver back print', category: 'tees', price: 1499, tag: 'WINTER / 001', comingSoon: true },
+        { id: 'soma-sol-01', name: 'SOLSTICE — ECLIPSE TEE', subtitle: 'Eclipse architecture / antique-silver print', category: 'tees', price: 1499, tag: 'WINTER / 001', image: './winter-solstice.svg', comingSoon: true },
         { id: 'winter-solstice-preview', name: 'SOLSTICE — ECLIPSE TEE', subtitle: 'Cathedral eclipse / antique-silver back print', category: 'tees', price: 0, tag: 'WINTER / 001', comingSoon: true },
-        { id: 'winter-solar-preview', name: 'HELIO — SUN RELIC TEE', subtitle: 'Ornamental solar form / bone-metal ink', category: 'tees', price: 0, tag: 'WINTER / 001', comingSoon: true },
-        { id: 'winter-unknown-preview', name: 'UNKNOWN — SIGNAL TEE', subtitle: 'Eclipse signal / reaching hands artwork', category: 'tees', price: 0, tag: 'WINTER / 001', comingSoon: true },
+        { id: 'winter-solar-preview', name: 'HELIO — SUN RELIC TEE', subtitle: 'Solar relic / flowing orbital rays', category: 'tees', price: 0, tag: 'WINTER / 001', image: './winter-helio.svg', comingSoon: true },
+        { id: 'winter-unknown-preview', name: 'UNKNOWN — SIGNAL TEE', subtitle: 'Eclipse signal / human-meets-cosmos motif', category: 'tees', price: 0, tag: 'WINTER / 001', image: './winter-unknown.svg', comingSoon: true },
         { id: 'winter-veil-preview', name: 'POLAR VEIL — HEAVY HOODIE', subtitle: 'Winter-weight layer / artwork in development', category: 'outerwear', price: 0, tag: 'COMING NEXT', comingSoon: true },
         { id: 'winter-orbit-preview', name: 'ORBITAL — CREWNECK', subtitle: 'Celestial technical graphic / artwork in development', category: 'outerwear', price: 0, tag: 'COMING NEXT', comingSoon: true }
       ]
@@ -552,12 +552,9 @@
               <span>${item.tag}</span>
               <span>HTTPS://SOMA.IN</span>
             </div>
-            <div class="h-44 bg-[#050505] border border-[#191919] flex items-center justify-center mb-4 relative">
-              <svg class="w-20 h-20 text-neutral-300" viewBox="0 0 100 100" fill="none">
-                <circle cx="50" cy="50" r="30" stroke="currentColor" stroke-width="1.2"/>
-                <circle cx="50" cy="50" r="20" stroke="#525252" stroke-width="0.8" stroke-dasharray="2 2"/>
-                <text x="50" y="53" text-anchor="middle" fill="#ffffff" font-family="Cinzel Decorative, serif" font-size="9" letter-spacing="2">SOMA</text>
-              </svg>
+            <div class="h-56 bg-[#050505] border border-[#292522] flex items-center justify-center mb-4 relative overflow-hidden">
+              <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(180,155,120,.13),transparent_68%)]"></div>
+              <img src="${item.image || './winter-solstice.svg'}" alt="${item.name} original SOMA winter print artwork" class="relative z-10 h-full w-full object-contain p-3" loading="lazy" />
             </div>
             <h3 class="font-cinzel text-sm text-white tracking-wider mb-1">${item.name}</h3>
             <p class="text-xs text-neutral-500 mb-4">${item.subtitle}</p>
