@@ -2,6 +2,6 @@
   "name": "soma-store",
   "compatibility_date": "2026-11-13",
   "assets": {
-    "directory": "./"
+    "directory": "./frontend"
   }
 }
