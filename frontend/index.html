@@ -385,7 +385,40 @@
 
       <div id="bagItemsContainer" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
 
-      <div class="p-5 border-t border-[#1f1f1f] bg-[#050505] space-y-4">
+      <div class="p-5 border-t border-[#1f1f1f] bg-[#050505] space-y-3 overflow-y-auto max-h-[58vh]">
+        <div class="border-b border-[#242424] pb-2">
+          <h4 class="font-cinzel text-sm text-white tracking-wider">SHIPPING DETAILS</h4>
+          <p class="font-mono-code text-[10px] text-neutral-500 mt-1">ENTER YOUR DELIVERY INFORMATION</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <label class="text-[10px] font-mono-code text-neutral-400">FULL NAME *
+            <input id="shipName" name="name" autocomplete="name" maxlength="100" required class="mt-1 w-full bg-[#0a0a0a] border border-[#303030] px-3 py-2 text-xs text-white outline-none focus:border-white" />
+          </label>
+          <label class="text-[10px] font-mono-code text-neutral-400">PHONE *
+            <input id="shipPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20" required pattern="[0-9+() -]{10,20}" class="mt-1 w-full bg-[#0a0a0a] border border-[#303030] px-3 py-2 text-xs text-white outline-none focus:border-white" />
+          </label>
+          <label class="text-[10px] font-mono-code text-neutral-400 sm:col-span-2">EMAIL *
+            <input id="shipEmail" name="email" type="email" autocomplete="email" maxlength="120" required class="mt-1 w-full bg-[#0a0a0a] border border-[#303030] px-3 py-2 text-xs text-white outline-none focus:border-white" />
+          </label>
+          <label class="text-[10px] font-mono-code text-neutral-400 sm:col-span-2">ADDRESS LINE 1 *
+            <input id="shipAddress1" name="address1" autocomplete="address-line1" maxlength="180" required class="mt-1 w-full bg-[#0a0a0a] border border-[#303030] px-3 py-2 text-xs text-white outline-none focus:border-white" />
+          </label>
+          <label class="text-[10px] font-mono-code text-neutral-400 sm:col-span-2">ADDRESS LINE 2
+            <input id="shipAddress2" name="address2" autocomplete="address-line2" maxlength="180" class="mt-1 w-full bg-[#0a0a0a] border border-[#303030] px-3 py-2 text-xs text-white outline-none focus:border-white" />
+          </label>
+          <label class="text-[10px] font-mono-code text-neutral-400">CITY *
+            <input id="shipCity" name="city" autocomplete="address-level2" maxlength="80" required class="mt-1 w-full bg-[#0a0a0a] border border-[#303030] px-3 py-2 text-xs text-white outline-none focus:border-white" />
+          </label>
+          <label class="text-[10px] font-mono-code text-neutral-400">STATE *
+            <input id="shipState" name="state" autocomplete="address-level1" maxlength="80" required class="mt-1 w-full bg-[#0a0a0a] border border-[#303030] px-3 py-2 text-xs text-white outline-none focus:border-white" />
+          </label>
+          <label class="text-[10px] font-mono-code text-neutral-400">PIN CODE *
+            <input id="shipPincode" name="pincode" autocomplete="postal-code" inputmode="numeric" maxlength="6" required pattern="[0-9]{6}" class="mt-1 w-full bg-[#0a0a0a] border border-[#303030] px-3 py-2 text-xs text-white outline-none focus:border-white" />
+          </label>
+          <label class="text-[10px] font-mono-code text-neutral-400">COUNTRY
+            <input value="India" readonly class="mt-1 w-full bg-[#0a0a0a] border border-[#303030] px-3 py-2 text-xs text-neutral-400" />
+          </label>
+        </div>
         <div class="flex items-center justify-between font-mono-code text-sm">
           <span class="text-neutral-400">SUBTOTAL</span>
           <span id="bagSubtotal" class="text-white font-semibold">₹0</span>
@@ -702,9 +735,34 @@
       // Example: https://soma-payment-api.onrender.com
       const API_BASE_URL = 'https://soma-payment-api.onrender.com';
 
+      function getShippingDetails() {
+        const fields = {
+          name: 'shipName', phone: 'shipPhone', email: 'shipEmail',
+          address1: 'shipAddress1', address2: 'shipAddress2',
+          city: 'shipCity', state: 'shipState', pincode: 'shipPincode'
+        };
+        const shipping = {};
+        for (const [key, id] of Object.entries(fields)) {
+          shipping[key] = document.getElementById(id).value.trim();
+        }
+        const requiredIds = ['shipName', 'shipPhone', 'shipEmail', 'shipAddress1', 'shipCity', 'shipState', 'shipPincode'];
+        const invalid = requiredIds.map(id => document.getElementById(id)).find(input => !input.checkValidity());
+        if (invalid) {
+          invalid.reportValidity();
+          invalid.focus();
+          return null;
+        }
+        return shipping;
+      }
+
       async function launchRazorpayCheckout(items, descriptionText) {
         if (!Array.isArray(items) || items.length === 0) {
           showToast('Your bag is empty');
+          return;
+        }
+        const shipping = getShippingDetails();
+        if (!shipping) {
+          showToast('Please complete your shipping details');
           return;
         }
 
@@ -715,7 +773,7 @@
           const orderResponse = await fetch(`${API_BASE_URL}/api/create-order`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items })
+            body: JSON.stringify({ items, shipping })
           });
 
           const orderData = await orderResponse.json();
