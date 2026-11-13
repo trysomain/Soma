@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SOMA — https://Soma.in | Minimalist Gothic Streetwear</title>
+  <title>SOMA — WINTER / 001 | Celestial Streetwear</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,6 +56,39 @@
     ::-webkit-scrollbar-thumb {
       background: #262626;
     }
+
+    /* SOMA WINTER / 001 — restrained trippy atmosphere */
+    body { position: relative; isolation: isolate; }
+    body::before {
+      content: ""; position: fixed; inset: -20%; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 18% 22%, rgba(105, 91, 151, .16), transparent 34%),
+        radial-gradient(ellipse at 82% 28%, rgba(139, 117, 83, .12), transparent 31%),
+        radial-gradient(ellipse at 52% 82%, rgba(85, 105, 132, .14), transparent 38%),
+        conic-gradient(from 90deg at 50% 50%, transparent 0deg, rgba(160,145,190,.045) 75deg, transparent 150deg, rgba(174,145,105,.04) 235deg, transparent 320deg);
+      filter: blur(42px) saturate(115%);
+      animation: soma-drift 28s ease-in-out infinite alternate;
+      transform-origin: center;
+    }
+    body::after {
+      content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      opacity: .14; mix-blend-mode: screen;
+      background-image: repeating-radial-gradient(ellipse at 50% 50%, transparent 0 36px, rgba(210,200,220,.035) 37px 38px, transparent 39px 74px);
+      mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 80%, transparent);
+      animation: soma-ripple 42s linear infinite;
+    }
+    @keyframes soma-drift {
+      0% { transform: translate3d(-2%, -1%, 0) rotate(-3deg) scale(1); }
+      100% { transform: translate3d(2%, 1%, 0) rotate(4deg) scale(1.08); }
+    }
+    @keyframes soma-ripple { to { transform: rotate(360deg) scale(1.06); } }
+    .goth-card { backdrop-filter: blur(5px); background: linear-gradient(145deg, rgba(17,17,19,.88), rgba(5,5,6,.94)); }
+    .winter-kicker { color: #b9aa91; letter-spacing: .28em; }
+    @media (prefers-reduced-motion: reduce) {
+      body::before, body::after { animation: none !important; }
+      * { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+
   </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-white selection:text-black">
@@ -127,7 +160,7 @@
       <div class="max-w-5xl mx-auto text-center">
         <!-- Gothic Ornamental Crest -->
         <div class="inline-flex items-center gap-3 px-3 py-1 border border-[#242424] bg-[#0a0a0a] mb-6">
-          <span class="text-[11px] font-mono-code tracking-[0.25em] text-neutral-400 uppercase">EST. MMXXVI // SOMA.IN</span>
+          <span class="text-[11px] font-mono-code tracking-[0.25em] text-neutral-400 uppercase">WINTER / 001 // THE CELESTIAL ARCHIVE</span>
         </div>
 
         <h1 id="heroTitle" class="font-gothic text-6xl sm:text-8xl tracking-wide text-white mb-4">
@@ -135,16 +168,16 @@
         </h1>
 
         <p id="heroSubtitle" class="font-cinzel text-sm sm:text-base tracking-[0.3em] uppercase text-neutral-300 mb-4">
-          SOMA | Wear perspective. Minimalist streetwear
+          WINTER / 001 — CELESTIAL SYSTEMS
         </p>
 
         <p id="heroBio" class="max-w-xl mx-auto text-sm text-neutral-400 font-light leading-relaxed mb-10">
-          Minimalist streetwear rooted in structural design. Heavyweight monochrome silhouettes, gothic emblem typography, and uncompromising obsidian form.
+          A study of cold light, celestial architecture and the unknown. Oversized monochrome forms, quiet metallic graphics and winter-weight layers.
         </p>
 
         <div class="flex flex-wrap items-center justify-center gap-4">
           <button type="button" data-nav="solstice" class="nav-trigger bg-white text-black font-mono-code text-xs tracking-[0.2em] uppercase px-7 py-3.5 hover:bg-neutral-200 transition">
-            Inspect Soma Solstice
+            Explore Winter / 001
           </button>
           <button type="button" data-nav="archive" class="nav-trigger border border-neutral-700 hover:border-white text-white font-mono-code text-xs tracking-[0.2em] uppercase px-7 py-3.5 transition">
             View Collection
@@ -166,10 +199,10 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
           <div>
             <span class="font-mono-code text-[11px] tracking-[0.25em] text-neutral-500 uppercase block mb-2">
-              SIGNATURE RELEASE // ARCHIVE 001
+              WINTER / 001 // FIRST LIGHT
             </span>
             <h2 class="font-cinzel text-2xl sm:text-4xl text-white tracking-wider">
-              SOMA SOLSTICE — GRAPHIC TEE
+              SOLSTICE — CELESTIAL GRAPHIC TEE
             </h2>
           </div>
           <div class="flex items-center gap-2">
@@ -234,8 +267,8 @@
             </svg>
 
             <div class="w-full flex items-center justify-between border-t border-[#1c1c1c] pt-4 mt-2 text-[11px] font-mono-code text-neutral-400">
-              <span>280 GSM HEAVYWEIGHT COTTON</span>
-              <span>BOXY ARCHITECTURAL FIT</span>
+              <span>WINTER GRAPHIC STUDY</span>
+              <span>OVERSIZED SILHOUETTE</span>
             </div>
           </div>
 
@@ -300,10 +333,10 @@
         <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
             <span class="font-mono-code text-[11px] tracking-[0.25em] text-neutral-500 uppercase block mb-2">
-              CATALOG // MONOCHROME SERIES
+              WINTER RELEASE // 001 — CELESTIAL SYSTEMS
             </span>
             <h2 class="font-cinzel text-2xl sm:text-3xl text-white tracking-wider">
-              STRUCTURAL ARCHIVE
+              THE WINTER COLLECTION
             </h2>
           </div>
 
@@ -482,38 +515,11 @@
       pendingCheckoutTotal: 0,
       bag: [],
       products: [
-        {
-          id: 'soma-sol-01',
-          name: 'SOMA SOLSTICE TEE',
-          subtitle: 'Front Chest Emblem + Back Sun Sigil',
-          category: 'tees',
-          price: 1499,
-          tag: 'SIGNATURE DROP'
-        },
-        {
-          id: 'soma-arc-02',
-          name: 'OBSIDIAN HEAVY HOODIE',
-          subtitle: '420 GSM Structural Drop-Shoulder',
-          category: 'outerwear',
-          price: 2499,
-          tag: 'ARCHIVE SLOT'
-        },
-        {
-          id: 'soma-arc-03',
-          name: 'NOCTURNE BOX TEE',
-          subtitle: 'Minimalist Gothic Crest Edition',
-          category: 'tees',
-          price: 1299,
-          tag: 'ARCHIVE SLOT'
-        },
-        {
-          id: 'soma-arc-04',
-          name: 'MONOLITH CARGO PANT',
-          subtitle: 'Matte Black Architectural Seam',
-          category: 'essentials',
-          price: 2799,
-          tag: 'ARCHIVE SLOT'
-        }
+        { id: 'winter-solstice-preview', name: 'SOLSTICE — ECLIPSE TEE', subtitle: 'Cathedral eclipse / antique-silver back print', category: 'tees', price: 0, tag: 'WINTER / 001', comingSoon: true },
+        { id: 'winter-solar-preview', name: 'HELIO — SUN RELIC TEE', subtitle: 'Ornamental solar form / bone-metal ink', category: 'tees', price: 0, tag: 'WINTER / 001', comingSoon: true },
+        { id: 'winter-unknown-preview', name: 'UNKNOWN — SIGNAL TEE', subtitle: 'Eclipse signal / reaching hands artwork', category: 'tees', price: 0, tag: 'WINTER / 001', comingSoon: true },
+        { id: 'winter-veil-preview', name: 'POLAR VEIL — HEAVY HOODIE', subtitle: 'Winter-weight layer / artwork in development', category: 'outerwear', price: 0, tag: 'COMING NEXT', comingSoon: true },
+        { id: 'winter-orbit-preview', name: 'ORBITAL — CREWNECK', subtitle: 'Celestial technical graphic / artwork in development', category: 'outerwear', price: 0, tag: 'COMING NEXT', comingSoon: true }
       ]
     };
 
@@ -556,9 +562,9 @@
             <p class="text-xs text-neutral-500 mb-4">${item.subtitle}</p>
           </div>
           <div class="pt-3 border-t border-[#1a1a1a] flex items-center justify-between">
-            <span class="font-mono-code text-sm text-white">${formatINR(item.price)}</span>
-            <button type="button" data-add-id="${item.id}" class="add-product-btn font-mono-code text-[11px] uppercase tracking-wider border border-neutral-700 hover:border-white hover:bg-white hover:text-black text-white px-3 py-1.5 transition">
-              + Add
+            <span class="font-mono-code text-[10px] winter-kicker">${item.comingSoon ? 'PREVIEW' : formatINR(item.price)}</span>
+            <button type="button" class="font-mono-code text-[10px] uppercase tracking-wider border border-neutral-700 text-neutral-400 px-3 py-1.5" disabled>
+              Coming Soon
             </button>
           </div>
         </div>
