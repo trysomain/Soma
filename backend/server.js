@@ -33,6 +33,54 @@ const PRODUCTS = {
 
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
 
+// Sandbox-only Qikink authentication check. This never creates an order or returns the token.
+app.post("/api/qikink/test", async (_req, res) => {
+  if (process.env.QIKINK_SANDBOX_MODE !== "true") {
+    return res.status(409).json({ ok: false, error: "Qikink Sandbox mode is not enabled." });
+  }
+
+  const clientId = process.env.QIKINK_CLIENT_ID;
+  const clientSecret = process.env.QIKINK_SANDBOX_SECRET || process.env.QIKINK_CLIENT_SECRET;
+  if (!clientId || !clientSecret) {
+    return res.status(503).json({
+      ok: false,
+      error: "Missing QIKINK_CLIENT_ID or Sandbox client secret in Render environment."
+    });
+  }
+
+  try {
+    const body = new URLSearchParams({
+      ClientId: clientId,
+      client_secret: clientSecret
+    });
+    const response = await fetch("https://sandbox.qikink.com/api/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+      signal: AbortSignal.timeout(15000)
+    });
+
+    const data = await response.json().catch(() => ({}));
+    const token = data.Accesstoken || data.access_token || data.accessToken;
+    if (!response.ok || !token) {
+      console.error("Qikink Sandbox auth failed:", response.status, JSON.stringify(data).slice(0, 500));
+      return res.status(502).json({
+        ok: false,
+        error: "Qikink Sandbox did not return an access token. Check the Render environment and Qikink API response.",
+        upstreamStatus: response.status
+      });
+    }
+
+    return res.json({ ok: true, connected: true, environment: "sandbox" });
+  } catch (error) {
+    console.error("Qikink Sandbox connection error:", error.message);
+    return res.status(502).json({
+      ok: false,
+      error: "Could not reach Qikink Sandbox. Check the service logs and try again."
+    });
+  }
+});
+
 app.post("/api/create-order", async (req, res) => {
   try {
     const items = req.body.items;
