@@ -114,9 +114,8 @@ app.post("/api/qikink/test-order", async (_req, res) => {
       gateway: "Prepaid",
       total_order_value: "284.55",
       line_items: [{
-        // Qikink support confirmed this SKU is supported for My Products lookup in Sandbox.
-        // Per the supplied API docs, omit print_type_id when search_from_my_products is 1.
-        search_from_my_products: 1,
+        // Qikink support asked us to test catalogue lookup mode while they investigate.
+        search_from_my_products: 0,
         sku: "UOSsMRnHs-Wh-S",
         quantity: "1",
         price: "284.55"
