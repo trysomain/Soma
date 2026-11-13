@@ -81,6 +81,93 @@ app.post("/api/qikink/test", async (_req, res) => {
   }
 });
 
+// Sandbox-only plain catalogue order test. Uses a fixed test address and never runs in Live mode.
+app.post("/api/qikink/test-order", async (_req, res) => {
+  if (process.env.QIKINK_SANDBOX_MODE !== "true") {
+    return res.status(409).json({ ok: false, error: "Qikink Sandbox mode is not enabled." });
+  }
+
+  const clientId = process.env.QIKINK_CLIENT_ID;
+  const clientSecret = process.env.QIKINK_SANDBOX_SECRET || process.env.QIKINK_CLIENT_SECRET;
+  if (!clientId || !clientSecret) {
+    return res.status(503).json({ ok: false, error: "Missing Qikink Sandbox credentials." });
+  }
+
+  try {
+    const tokenBody = new URLSearchParams({ ClientId: clientId, client_secret: clientSecret });
+    const tokenResponse = await fetch("https://sandbox.qikink.com/api/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: tokenBody,
+      signal: AbortSignal.timeout(15000)
+    });
+    const tokenData = await tokenResponse.json().catch(() => ({}));
+    const accessToken = tokenData.Accesstoken || tokenData.access_token || tokenData.accessToken;
+    if (!tokenResponse.ok || !accessToken) {
+      return res.status(502).json({ ok: false, error: "Could not obtain a Qikink Sandbox access token." });
+    }
+
+    const orderNumber = `SOMATEST${Date.now().toString().slice(-6)}`;
+    const payload = {
+      order_number: orderNumber,
+      qikink_shipping: "1",
+      gateway: "Prepaid",
+      total_order_value: "294",
+      line_items: [{
+        search_from_my_products: 0,
+        sku: "UOsTMRnHs-Wh-S",
+        quantity: "1",
+        price: "294"
+      }],
+      shipping_address: {
+        first_name: "SOMA",
+        last_name: "SANDBOX",
+        address1: "Sandbox Test Address",
+        address2: "",
+        phone: "9999999999",
+        email: "sandbox-test@example.com",
+        city: "Ludhiana",
+        zip: "141001",
+        province: "Punjab",
+        country_code: "IN"
+      }
+    };
+
+    const orderResponse = await fetch("https://sandbox.qikink.com/api/order/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ClientId: clientId,
+        Accesstoken: accessToken
+      },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(20000)
+    });
+    const orderData = await orderResponse.json().catch(() => ({}));
+    if (!orderResponse.ok || orderData.error || orderData.code === 0 || orderData.success === false) {
+      console.error("Qikink Sandbox test order rejected:", orderResponse.status, JSON.stringify(orderData).slice(0, 500));
+      return res.status(502).json({
+        ok: false,
+        environment: "sandbox",
+        orderNumber,
+        error: orderData.message || orderData.msg || orderData.error || "Qikink Sandbox rejected the test order.",
+        upstreamStatus: orderResponse.status
+      });
+    }
+
+    return res.json({
+      ok: true,
+      environment: "sandbox",
+      orderNumber,
+      qikinkOrderId: orderData.order_id || orderData.id || null,
+      qikinkResponse: orderData
+    });
+  } catch (error) {
+    console.error("Qikink Sandbox test order error:", error.message);
+    return res.status(502).json({ ok: false, environment: "sandbox", error: "Could not submit the test order to Qikink Sandbox." });
+  }
+});
+
 app.post("/api/create-order", async (req, res) => {
   try {
     const items = req.body.items;
