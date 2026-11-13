@@ -112,12 +112,12 @@ app.post("/api/qikink/test-order", async (_req, res) => {
       order_number: orderNumber,
       qikink_shipping: "1",
       gateway: "Prepaid",
-      total_order_value: "294",
+      total_order_value: "160",
       line_items: [{
         search_from_my_products: 0,
-        sku: "UOsTMRnHs-Wh-S",
+        sku: "UOsJsRnHs-Wh-S",
         quantity: "1",
-        price: "294"
+        price: "160"
       }],
       shipping_address: {
         first_name: "SOMA",
